@@ -19,6 +19,14 @@ namespace Snake
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        public enum GameState{
+            main_menu,
+            playing
+        };
+
+        private GameState currentState;
+        private GameState preState;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -34,6 +42,8 @@ namespace Snake
         protected override void Initialize()
         {
             // TODO: 在此处添加初始化逻辑
+            currentState = GameState.playing;
+            preState = currentState;
 
             base.Initialize();
         }
@@ -71,8 +81,17 @@ namespace Snake
                 this.Exit();
 
             // TODO: 在此处添加更新逻辑
+            if (currentState != preState)
+            {
+                currentState = preState;
+                switch (currentState)
+                {
+                    default:
+                        break;
+                }
 
-            base.Update(gameTime);
+                base.Update(gameTime);
+            }
         }
 
         /// <summary>

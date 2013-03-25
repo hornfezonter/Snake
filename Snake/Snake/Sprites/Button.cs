@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Snake.Sprites
 {
-    class Button
+    public class Button
     {
         protected Texture2D img;
         protected Vector2 position;
