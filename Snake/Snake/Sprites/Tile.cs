@@ -48,6 +48,28 @@ namespace Snake.Sprites
             sheetSize = _sheetSize;
         }
 
+        public override void Update(GameTime gameTime)
+        {
+            timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeSinceLastFrame > timePerFrame)
+            {
+                timeSinceLastFrame = 0;
+                ++currentFrame.X;
+                if (currentFrame.X >= sheetSize.X)
+                {
+                    currentFrame.X = 0;
+                    ++currentFrame.Y;
+                    if (currentFrame.Y >= sheetSize.Y)
+                        currentFrame.Y = 0;
+                }
+            }
+        }
 
+        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            spriteBatch.Begin();
+            spriteBatch.Draw(img, new Rectangle((int)(origin.X + position.X * displayWidth), (int)(origin.Y + position.Y * displayHeight), displayWidth, displayHeight), Color.White);
+            spriteBatch.End();
+        }
     }
 }
