@@ -24,12 +24,12 @@ namespace Snake.Sprites
             direction = Direction.Up;
         }
 
-        public SnakeSegment(Texture2D _img, Vector2 _origin, Point _position) : base(_img, _origin, _position) {
-            direction = Direction.Up;
+        public SnakeSegment(Texture2D _img, Vector2 _origin, Point _position, Direction _direction) : base(_img, _origin, _position) {
+            direction = _direction;
         }
 
-        public SnakeSegment(Texture2D _img, Vector2 _origin, Point _position, Point _frameSize, Point _sheetSize) : base(_img, _origin, _position, _frameSize, _sheetSize) {
-            direction = Direction.Up;
+        public SnakeSegment(Texture2D _img, Vector2 _origin, Point _position, Direction _direction, Point _frameSize, Point _sheetSize) : base(_img, _origin, _position, _frameSize, _sheetSize) {
+            direction = _direction;
         }
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
@@ -44,13 +44,13 @@ namespace Snake.Sprites
                     rotation = 0;
                     break;
                 case Direction.Left:
-                    rotation = 90;
+                    rotation = (float)(Math.PI * 0.5);
                     break;
                 case Direction.Down:
-                    rotation = 180;
+                    rotation = (float)Math.PI;
                     break;
                 case Direction.Right:
-                    rotation = 270;
+                    rotation = (float)(Math.PI * 1.5);
                     break;
                 default:
                     rotation = 0;

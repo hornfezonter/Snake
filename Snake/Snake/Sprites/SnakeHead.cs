@@ -13,9 +13,23 @@ namespace Snake.Sprites
 
          public SnakeHead() : base(){ }
 
-        public SnakeHead(Texture2D _img, Vector2 _origin, Point _position) : base(_img, _origin, _position) { }
+        public SnakeHead(Texture2D _img, Vector2 _origin, Point _position, Direction _direction) : base(_img, _origin, _position,_direction)
+        {
+            nextDirection = direction;
+        }
 
-        public SnakeHead(Texture2D _img, Vector2 _origin, Point _position, Point _frameSize, Point _sheetSize) : base(_img, _origin, _position, _frameSize, _sheetSize) { }
+        public SnakeHead(Texture2D _img, Vector2 _origin, Point _position, Direction _direction, Point _frameSize, Point _sheetSize) : base(_img, _origin, _position, _direction, _frameSize, _sheetSize)
+        {
+            nextDirection = direction;
+        }
+
+        public Direction NextDirection
+        {
+            get
+            {
+                return nextDirection;
+            }
+        }
 
         public bool turn(Direction dir)
         {
