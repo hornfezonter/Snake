@@ -48,6 +48,15 @@ namespace Snake.Sprites
             sheetSize = _sheetSize;
         }
 
+        public void changeImage(Texture2D _img, Point _frameSize, Point _sheetSize)
+        {
+            img = _img;
+            frameSize = _frameSize;
+            sheetSize = _sheetSize;
+            currentFrame.X = 0;
+            currentFrame.Y = 0;
+        }
+
         public override void Update(GameTime gameTime)
         {
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;

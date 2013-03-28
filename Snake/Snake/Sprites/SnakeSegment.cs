@@ -32,6 +32,18 @@ namespace Snake.Sprites
             direction = _direction;
         }
 
+        public Direction CurrentDirection
+        {
+            get
+            {
+                return direction;
+            }
+            set
+            {
+                direction = value;
+            }
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Rectangle destRec = new Rectangle((int)(origin.X+position.X*displayWidth), (int)(origin.Y+position.Y*displayHeight), displayWidth,displayHeight);

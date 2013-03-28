@@ -23,6 +23,18 @@ namespace Snake.Sprites
             preDirection = _preDirection;
         }
 
+        public Direction PreDirection
+        {
+            get
+            {
+                return preDirection;
+            }
+            set
+            {
+                preDirection = value;
+            }
+        }
+
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             if (preDirection == direction)

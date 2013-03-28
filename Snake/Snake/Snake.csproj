@@ -76,9 +76,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Sprites\Button.cs" />
+    <Compile Include="Sprites\Snake.cs" />
     <Compile Include="Sprites\SnakeBody.cs" />
     <Compile Include="Sprites\SnakeHead.cs" />
     <Compile Include="Sprites\SnakeSegment.cs" />
+    <Compile Include="Sprites\SnakeTail.cs" />
     <Compile Include="Sprites\Tile.cs" />
   </ItemGroup>
   <ItemGroup>

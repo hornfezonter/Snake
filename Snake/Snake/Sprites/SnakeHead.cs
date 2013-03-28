@@ -29,6 +29,10 @@ namespace Snake.Sprites
             {
                 return nextDirection;
             }
+            set
+            {
+                nextDirection = value;
+            }
         }
 
         public bool turn(Direction dir)
