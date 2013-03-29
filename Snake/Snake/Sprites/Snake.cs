@@ -9,38 +9,177 @@ namespace Snake.Sprites
 {
     public class Snake
     {
+        #region 成员变量
+
         protected SnakeHead head;
         protected List<SnakeBody> body;
         protected SnakeTail tail;
+        protected int msPerMove;//贪吃蛇移动一步的时间间隔
+        protected int timeSinceLastMove;
 
-        public Snake()
+        protected Texture2D headImage;
+        protected Texture2D straightBodyImage;
+        protected Texture2D cornerBodyImage;
+        protected Texture2D tailImage;
+        protected Vector2 origin;
+
+        public int MsPerMove
         {
-            head = new SnakeHead();
+            get
+            {
+                return msPerMove;
+            }
+            set
+            {
+                msPerMove = value;
+            }
+        }
+
+        #endregion
+
+        #region 构造函数
+
+        public Snake(Vector2 _origin, Point position, Texture2D _head, Texture2D _straightBody, Texture2D _cornerBody, Texture2D _tail)
+        {
+            origin = _origin;
+            headImage = _head;
+            straightBodyImage = _straightBody;
+            cornerBodyImage = _cornerBody;
+            tailImage = _tail;
+
+            Point pos = position;
+
+            head = new SnakeHead(headImage, origin, pos, Direction.Up);
             body = new List<SnakeBody>();
-            body.Add(new SnakeBody());
-            tail = new SnakeTail();
+            pos.Y++;
+            body.Add(new SnakeBody(straightBodyImage, origin, pos, Direction.Up, Direction.Up));
+            pos.Y++;
+            tail = new SnakeTail(tailImage, origin, pos, Direction.Up);
+
+            msPerMove = 1000;
+            timeSinceLastMove = 0;
         }
 
         //蛇的最短长度为3
-        public Snake(Direction _direction, int length)
+        public Snake(Vector2 _origin, Point position, Texture2D _head, Texture2D _straightBody, Texture2D _cornerBody, Texture2D _tail, Direction _direction, int length)
         {
+            origin = _origin;
+            headImage = _head;
+            straightBodyImage = _straightBody;
+            cornerBodyImage = _cornerBody;
+            tailImage = _tail;
+
+            Point pos = position;
+
+            msPerMove = 1000;
+            timeSinceLastMove = 0;
+
             if (length < 3)
                 length = 3;
 
-            head = new SnakeHead();
+            int x, y;
+            switch (_direction)
+            {
+                case Direction.Up:
+                    x = 0;
+                    y = -1;
+                    break;
+                case Direction.Down:
+                    x = 0;
+                    y = 1;
+                    break;
+                case Direction.Left:
+                    x = -1;
+                    y = 0;
+                    break;
+                case Direction.Right:
+                    x = 1;
+                    y = 0;
+                    break;
+                default:
+                    x = 0;
+                    y = 0;
+                    break;
+            }
+
+            head = new SnakeHead(headImage, origin, pos, _direction);
             body = new List<SnakeBody>();
             for (int i = 0; i < length - 2; i++)
-                body.Add(new SnakeBody());
-            tail = new SnakeTail();
-
-            head.CurrentDirection = _direction;
-            head.NextDirection = _direction;
-            for (int i = 0; i < body.Count; i++)
             {
-                body[i].CurrentDirection = _direction;
-                body[i].PreDirection = _direction;
+                pos.X += x;
+                pos.Y += y;
+                body.Add(new SnakeBody(straightBodyImage,origin,pos,_direction,_direction));
             }
-            tail.CurrentDirection = _direction;
+
+            pos.X += x;
+            pos.Y += y;
+            tail = new SnakeTail();
+        }
+
+        #endregion
+
+        public override void Update(GameTime gameTime)
+        {
+            head.Update(gameTime);
+            foreach (SnakeBody i in body)
+                i.Update(gameTime);
+            tail.Update(gameTime);
+
+            timeSinceLastMove += gameTime.ElapsedGameTime.Milliseconds;
+            if (timeSinceLastMove >= msPerMove)
+            {
+                timeSinceLastMove = 0;
+                move();
+            }
+        }
+
+        protected void move()
+        {
+            int x, y;
+            switch (head.NextDirection)
+            {
+                case Direction.Up:
+                    x = 0;
+                    y = -1;
+                    break;
+                case Direction.Down:
+                    x = 0;
+                    y = 1;
+                    break;
+                case Direction.Left:
+                    x = -1;
+                    y = 0;
+                    break;
+                case Direction.Right:
+                    x = 1;
+                    y = 0;
+                    break;
+                default:
+                    x=0;
+                    y=0;
+                    break;
+            }
+
+            int length = body.Count;
+            tail.Position = body[length - 1].Position;
+            tail.CurrentDirection = body[length - 1].CurrentDirection;
+
+            body.RemoveAt(length - 1);
+
+            Texture2D bodyImage;
+            if (head.CurrentDirection == head.NextDirection)
+                bodyImage = straightBodyImage;
+            else
+                bodyImage = cornerBodyImage;
+
+            body.Insert(0,new SnakeBody(bodyImage, origin, head.Position, head.NextDirection, head.CurrentDirection));
+
+            Point p;
+            p = head.Position;
+            p.X += x;
+            p.Y += y;
+            head.Position = p;
+            head.CurrentDirection = head.NextDirection;
         }
     }
 }

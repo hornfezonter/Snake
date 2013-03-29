@@ -9,6 +9,8 @@ namespace Snake.Sprites
 {
     public abstract class Tile
     {
+        #region 成员变量
+
         protected Texture2D img;
         protected Point position;
         protected Vector2 origin;
@@ -19,6 +21,20 @@ namespace Snake.Sprites
         protected int timePerFrame;
         protected int displayWidth;
         protected int displayHeight;
+
+        public Point Position
+        {
+            set
+            {
+                position = value;
+            }
+            get
+            {
+                return position;
+            }
+        }
+
+        #endregion
 
         public Tile() 
         {
