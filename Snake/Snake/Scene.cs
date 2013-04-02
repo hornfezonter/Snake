@@ -116,6 +116,11 @@ namespace Snake
             contains[3, 4] = Contain.snake;
             contains[3, 5] = Contain.snake;
 
+            img_head = Game.Content.Load<Texture2D>(@"images/AIhead");
+            img_straightBody = Game.Content.Load<Texture2D>(@"images/AIstraightBody");
+            img_cornerBody = Game.Content.Load<Texture2D>(@"images/AIcornerBody");
+            img_tail = Game.Content.Load<Texture2D>(@"images/AItail");
+
             AI = new Snake.Sprites.Snake(origin, new Point(10, 10), img_head, img_straightBody, img_cornerBody, img_tail);
             contains[10, 10] = Contain.snake;
             contains[10, 11] = Contain.snake;
