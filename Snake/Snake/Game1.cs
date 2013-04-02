@@ -118,6 +118,12 @@ namespace Snake
                         loose.Initialize();
                         Components.Add(loose);
                         break;
+                    case GameState.win:
+                        Components.Clear();
+                        Win win = new Win(this);
+                        win.Initialize();
+                        Components.Add(win);
+                        break;
                     default:
                         break;
                 }

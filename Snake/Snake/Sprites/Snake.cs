@@ -145,7 +145,7 @@ namespace Snake.Sprites
 
         #endregion
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             head.Update(gameTime);
             foreach (SnakeBody i in body)
@@ -153,7 +153,7 @@ namespace Snake.Sprites
             tail.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             head.Draw(gameTime, spriteBatch);
             tail.Draw(gameTime, spriteBatch);

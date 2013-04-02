@@ -135,8 +135,51 @@ namespace Snake
             timeSinceLastMove += gameTime.ElapsedGameTime.Milliseconds;
             if (timeSinceLastMove >= timePerMove)
             {
-                bool grow = false;
                 timeSinceLastMove = 0;
+
+                #region AI_move
+
+                bool AIgrow = false;
+
+                Point AItailPosition = AI.TailPosition;
+                if (growPoints[AItailPosition.X, AItailPosition.Y])
+                {
+                    AIgrow = true;
+                    growPoints[AItailPosition.X, AItailPosition.Y] = false;
+                }
+
+                Point AInextPosition = AI.NextPosition;
+                if (contains[AInextPosition.X, AInextPosition.Y] == Contain.empty)
+                {
+                    AI.move(AIgrow);
+                    contains[AInextPosition.X, AInextPosition.Y] = Contain.snake;
+                    if (!AIgrow)
+                    {
+                        contains[AItailPosition.X, AItailPosition.Y] = Contain.empty;
+                    }
+                }
+                else if (contains[AInextPosition.X, AInextPosition.Y] == Contain.food)
+                {
+                    AI.move(AIgrow);
+                    contains[AInextPosition.X, AInextPosition.Y] = Contain.snake;
+                    if (!AIgrow)
+                    {
+                        contains[AItailPosition.X, AItailPosition.Y] = Contain.empty;
+                    }
+                    growPoints[AInextPosition.X, AInextPosition.Y] = true;
+                    foods.RemoveAt(0);
+                    food_eaten = true;
+                }
+                else
+                {
+                    ((Game1)Game).currentState = Game1.GameState.win;
+                }
+
+                #endregion
+
+                #region player_move
+
+                bool grow = false;
 
                 Point tailPosition = player.TailPosition;
                 if (growPoints[tailPosition.X, tailPosition.Y])
@@ -171,7 +214,11 @@ namespace Snake
                 {
                     ((Game1)Game).currentState = Game1.GameState.loose;
                 }
+                #endregion
+
             }
+
+            #region generate food
 
             if (food_eaten)
             {
@@ -185,10 +232,10 @@ namespace Snake
                         foods.Add(new Food(img_food, origin, new Point(roll/20, roll%20)));
                         food_eaten = false;
                         break;
-                    }
-                    
-                }          
+                    }                 
+                }
             }
+            #endregion
 
             KeyboardState key = Keyboard.GetState();
             if (key.IsKeyDown(Keys.W) || key.IsKeyDown(Keys.Up))
@@ -200,6 +247,7 @@ namespace Snake
             else if (key.IsKeyDown(Keys.D) || key.IsKeyDown(Keys.Right))
                 player.turn(Direction.Right);
 
+            
 
             base.Update(gameTime);
         }
@@ -207,6 +255,7 @@ namespace Snake
         public override void Draw(GameTime gameTime)
         {
             player.Draw(gameTime, spriteBatch);
+            AI.Draw(gameTime, spriteBatch);
             foreach (Stone s in stones)
             {
                 s.Draw(gameTime, spriteBatch);
