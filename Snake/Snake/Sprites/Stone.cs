@@ -19,8 +19,6 @@ namespace Snake.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            //Debug.WriteLine("stone");
-
             base.Draw(gameTime, spriteBatch);
         }
     }

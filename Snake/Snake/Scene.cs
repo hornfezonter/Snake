@@ -14,9 +14,7 @@ namespace Snake
     public enum Contain
     {
         food,
-        snakeBody,
-        snakeHead,
-        snakeTail,
+        snake,
         stone,
         empty
     }
@@ -24,6 +22,8 @@ namespace Snake
     public class Scene:DrawableGameComponent
     {
         #region 成员变量
+
+        protected int finish;//0为进行中，1为失败，2为胜利
 
         protected SpriteBatch spriteBatch;
         protected Texture2D img_background;
@@ -36,6 +36,7 @@ namespace Snake
         protected Contain[,] contains;
         protected bool[,] growPoints;
         protected Snake.Sprites.Snake player;
+        protected Snake.Sprites.Snake AI;
         protected Vector2 origin;
         protected List<Stone> stones;
         protected List<Food> foods;
@@ -61,7 +62,20 @@ namespace Snake
 
         public override void Initialize()
         {
-            spriteBatch = new SpriteBatch(Game.GraphicsDevice);          
+            base.Initialize();
+        }
+
+        protected override void LoadContent()
+        {
+            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+
+            img_head = Game.Content.Load<Texture2D>(@"images/head");
+            img_straightBody = Game.Content.Load<Texture2D>(@"images/straightBody");
+            img_cornerBody = Game.Content.Load<Texture2D>(@"images/cornerBody");
+            img_tail = Game.Content.Load<Texture2D>(@"images/tail");
+            img_food = Game.Content.Load<Texture2D>(@"images/objects/meat");
+            Texture2D img_wall = Game.Content.Load<Texture2D>(@"images/objects/wall");
+
             contains = new Contain[20, 20];
             growPoints = new bool[20, 20];
             food_eaten = true;
@@ -71,18 +85,6 @@ namespace Snake
                     contains[i, j] = Contain.empty;
                     growPoints[i, j] = false;
                 }
-
-            base.Initialize();
-        }
-
-        protected override void LoadContent()
-        {
-            img_head = Game.Content.Load<Texture2D>(@"images/head");
-            img_straightBody = Game.Content.Load<Texture2D>(@"images/straightBody");
-            img_cornerBody = Game.Content.Load<Texture2D>(@"images/cornerBody");
-            img_tail = Game.Content.Load<Texture2D>(@"images/tail");
-            img_food = Game.Content.Load<Texture2D>(@"images/objects/meat");
-            Texture2D img_wall = Game.Content.Load<Texture2D>(@"images/objects/wall");
 
             for (int i = 0; i < 20; i++)
             {
@@ -110,9 +112,14 @@ namespace Snake
             }
 
             player = new Snake.Sprites.Snake(origin, new Point(3, 3), img_head, img_straightBody, img_cornerBody, img_tail);
-            contains[3, 3] = Contain.snakeHead;
-            contains[3, 4] = Contain.snakeBody;
-            contains[3, 5] = Contain.snakeTail;
+            contains[3, 3] = Contain.snake;
+            contains[3, 4] = Contain.snake;
+            contains[3, 5] = Contain.snake;
+
+            AI = new Snake.Sprites.Snake(origin, new Point(10, 10), img_head, img_straightBody, img_cornerBody, img_tail);
+            contains[10, 10] = Contain.snake;
+            contains[10, 11] = Contain.snake;
+            contains[10, 12] = Contain.snake;
 
             base.LoadContent();
         }
@@ -142,19 +149,28 @@ namespace Snake
                 if (contains[nextPosition.X, nextPosition.Y] == Contain.empty)
                 {
                     player.move(grow);
+                    contains[nextPosition.X, nextPosition.Y] = Contain.snake;
+                    if (!grow)
+                    {
+                        contains[tailPosition.X, tailPosition.Y] = Contain.empty;
+                    }
                 }
                 else if (contains[nextPosition.X, nextPosition.Y] == Contain.food)
                 {
-                    Debug.WriteLine("alert");
                     player.move(grow);
-                    Debug.WriteLine("1");
+                    contains[nextPosition.X, nextPosition.Y] = Contain.snake;
+                    if (!grow)
+                    {
+                        contains[tailPosition.X, tailPosition.Y] = Contain.empty;
+                    }
                     growPoints[nextPosition.X, nextPosition.Y] = true;
-                    Debug.WriteLine("2");
                     foods.RemoveAt(0);
-                    Debug.WriteLine("3");
                     food_eaten = true;
                 }
-                Debug.WriteLine("end");
+                else
+                {
+                    ((Game1)Game).currentState = Game1.GameState.loose;
+                }
             }
 
             if (food_eaten)
@@ -162,7 +178,6 @@ namespace Snake
                 for (; ; )
                 {
                     int roll = rand.Next(0, 400);
-                    Debug.WriteLine(roll);
 
                     if (contains[roll/20, roll%20] == Contain.empty)
                     {
@@ -172,8 +187,7 @@ namespace Snake
                         break;
                     }
                     
-                }
-                
+                }          
             }
 
             KeyboardState key = Keyboard.GetState();
@@ -193,7 +207,6 @@ namespace Snake
         public override void Draw(GameTime gameTime)
         {
             player.Draw(gameTime, spriteBatch);
-            //Debug.WriteLine(stones.Count);
             foreach (Stone s in stones)
             {
                 s.Draw(gameTime, spriteBatch);

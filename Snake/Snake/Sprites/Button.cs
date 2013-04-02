@@ -50,7 +50,6 @@ namespace Snake.Sprites
         {
             Rectangle rec = new Rectangle((int)position.X, (int)position.Y, width, height);
             spriteBatch.Begin();
-            //Debug.WriteLine("testtest");
             spriteBatch.Draw(img, rec, Color.White);
             spriteBatch.End();
         }

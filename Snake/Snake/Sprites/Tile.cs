@@ -94,8 +94,6 @@ namespace Snake.Sprites
 
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-
-            //Debug.WriteLine(this.ToString());
             spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
             spriteBatch.Draw(img, new Rectangle((int)(origin.X + position.X * displayWidth), (int)(origin.Y + position.Y * displayHeight), displayWidth, displayHeight),null, Color.White, 0, new Vector2((float)(displayWidth*0.5), (float)(displayHeight*0.5)), SpriteEffects.None, 0);
             spriteBatch.End();
