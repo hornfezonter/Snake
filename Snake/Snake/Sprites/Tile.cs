@@ -55,8 +55,8 @@ namespace Snake.Sprites
             img = _img;
             origin = _origin;
             position = _position;
-            displayHeight = _img.Height;
-            displayWidth = _img.Width;
+            displayHeight = 30;
+            displayWidth = 30;
         }
 
         public Tile(Texture2D _img, Vector2 _origin, Point _position, Point _frameSize, Point _sheetSize)
@@ -95,9 +95,9 @@ namespace Snake.Sprites
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
 
-            Debug.WriteLine(this.ToString());
-            spriteBatch.Begin();
-            spriteBatch.Draw(img, new Rectangle((int)(origin.X + position.X * displayWidth), (int)(origin.Y + position.Y * displayHeight), displayWidth, displayHeight), Color.White);
+            //Debug.WriteLine(this.ToString());
+            spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+            spriteBatch.Draw(img, new Rectangle((int)(origin.X + position.X * displayWidth), (int)(origin.Y + position.Y * displayHeight), displayWidth, displayHeight),null, Color.White, 0, new Vector2((float)(displayWidth*0.5), (float)(displayHeight*0.5)), SpriteEffects.None, 0);
             spriteBatch.End();
         }
     }

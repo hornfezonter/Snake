@@ -49,7 +49,7 @@ namespace Snake
         protected override void Initialize()
         {
             // TODO: 在此处添加初始化逻辑
-            Debug.WriteLine("init");
+            //Debug.WriteLine("init");
             currentState = GameState.main_menu;
             preState = GameState.main_menu;
 
@@ -100,14 +100,14 @@ namespace Snake
                 switch (currentState)
                 {
                     case GameState.main_menu:
-                        Debug.WriteLine("menu");
+                        //Debug.WriteLine("menu");
                         Components.Clear();
                         Menu menu = new Menu(this);
                         menu.Initialize();
                         Components.Add(menu);
                         break;
                     case GameState.playing:
-                        Debug.WriteLine("let's play it");
+                        //Debug.WriteLine("let's play it");
                         Components.Clear();
                         Scene scene = new Scene(this);
                         scene.Initialize();

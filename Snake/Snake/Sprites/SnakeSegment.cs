@@ -48,9 +48,6 @@ namespace Snake.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            Debug.WriteLine(this.ToString());
-            //Debug.WriteLine(position);
-            //Debug.WriteLine(origin);
             Rectangle destRec = new Rectangle((int)(origin.X+position.X*displayWidth), (int)(origin.Y+position.Y*displayHeight), displayWidth,displayHeight);
             Vector2 rotationOrigin = new Vector2((float)(displayWidth * 0.5), (float)(displayHeight * 0.5));
             float rotation;
@@ -76,6 +73,7 @@ namespace Snake.Sprites
 
             spriteBatch.Begin();
             spriteBatch.Draw(img, destRec, null, Color.White, rotation, rotationOrigin, SpriteEffects.None, 0);
+            //spriteBatch.Draw(img, new Vector2(origin.X + position.X * displayWidth, origin.Y + position.Y * displayHeight), null, Color.White, rotation, rotationOrigin, new Vector2(0, 0), SpriteEffects.None, 0);
             spriteBatch.End();
         }
     }

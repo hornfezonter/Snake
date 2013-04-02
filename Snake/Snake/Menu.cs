@@ -45,13 +45,10 @@ namespace Snake
             start.Update(gameTime);
             exit.Update(gameTime);
 
-            //Debug.WriteLine("try");
             if (state.LeftButton == ButtonState.Pressed)
             {
-                //Debug.WriteLine("click");
                 if (start.CheckPoint(mousePoint))
                 {
-                    //Debug.WriteLine("play");
                     ((Game1)Game).currentState = Game1.GameState.playing;
                 }
 

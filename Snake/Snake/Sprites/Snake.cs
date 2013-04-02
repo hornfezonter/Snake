@@ -25,15 +25,46 @@ namespace Snake.Sprites
         protected Texture2D tailImage;
         protected Vector2 origin;
 
-        public int MsPerMove
+        public Point NextPosition
         {
             get
             {
-                return msPerMove;
+                int x, y;
+                switch (head.NextDirection)
+                {
+                    case Direction.Up:
+                        x = 0;
+                        y = -1;
+                        break;
+                    case Direction.Down:
+                        x = 0;
+                        y = 1;
+                        break;
+                    case Direction.Left:
+                        x = -1;
+                        y = 0;
+                        break;
+                    case Direction.Right:
+                        x = 1;
+                        y = 0;
+                        break;
+                    default:
+                        x = 0;
+                        y = 0;
+                        break;
+                }
+                Point result = head.Position;
+                result.X += x;
+                result.Y += y;
+                return result;
             }
-            set
+        }
+
+        public Point TailPosition
+        {
+            get
             {
-                msPerMove = value;
+                return tail.Position;
             }
         }
 
