@@ -129,11 +129,11 @@ namespace Snake.Sprites
             if (timeSinceLastMove >= msPerMove)
             {
                 timeSinceLastMove = 0;
-                move();
+                move(false);
             }
         }
 
-        protected void move()
+        protected void move(bool grow)
         {
             int x, y;
             switch (head.NextDirection)
@@ -161,10 +161,14 @@ namespace Snake.Sprites
             }
 
             int length = body.Count;
-            tail.Position = body[length - 1].Position;
-            tail.CurrentDirection = body[length - 1].CurrentDirection;
 
-            body.RemoveAt(length - 1);
+            if (!grow)
+            {
+                tail.Position = body[length - 1].Position;
+                tail.CurrentDirection = body[length - 1].CurrentDirection;
+
+                body.RemoveAt(length - 1);
+            }
 
             Texture2D bodyImage;
             if (head.CurrentDirection == head.NextDirection)
