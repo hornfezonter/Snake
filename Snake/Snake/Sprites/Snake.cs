@@ -68,6 +68,14 @@ namespace Snake.Sprites
             }
         }
 
+        public Point HeadPosition
+        {
+            get
+            {
+                return head.Position;
+            }
+        }
+
         #endregion
 
         #region 构造函数

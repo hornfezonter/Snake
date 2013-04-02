@@ -247,6 +247,23 @@ namespace Snake
             else if (key.IsKeyDown(Keys.D) || key.IsKeyDown(Keys.Right))
                 player.turn(Direction.Right);
 
+            Point AIHead = AI.HeadPosition;
+            if (contains[AIHead.X - 1, AIHead.Y] == Contain.empty || contains[AIHead.X - 1, AIHead.Y] == Contain.food)
+            {
+                AI.turn(Direction.Left);
+            }
+            else if (contains[AIHead.X + 1, AIHead.Y] == Contain.empty || contains[AIHead.X + 1, AIHead.Y] == Contain.food)
+            {
+                AI.turn(Direction.Right);
+            }
+            else if (contains[AIHead.X, AIHead.Y - 1] == Contain.empty || contains[AIHead.X - 1, AIHead.Y - 1] == Contain.food)
+            {
+                AI.turn(Direction.Up);
+            }
+            else if (contains[AIHead.X, AIHead.Y + 1] == Contain.empty || contains[AIHead.X - 1, AIHead.Y + 1] == Contain.food)
+            {
+                AI.turn(Direction.Down);
+            }
             
 
             base.Update(gameTime);
