@@ -44,7 +44,7 @@ namespace Snake.Sprites
             else
             {
                 Rectangle destRec = new Rectangle((int)(origin.X + position.X * displayWidth), (int)(origin.Y + position.Y * displayHeight), displayWidth, displayHeight);
-                Vector2 rotationOrigin = new Vector2((float)(origin.X + position.X * displayWidth + displayWidth * 0.5), (float)(origin.Y + position.Y * displayHeight + displayHeight * 0.5));
+                Vector2 rotationOrigin = new Vector2((float)(displayWidth * 0.5), (float)(displayHeight * 0.5));
                 float rotation = 0;
                 SpriteEffects effect = SpriteEffects.None;
 
@@ -61,15 +61,15 @@ namespace Snake.Sprites
                             effect = SpriteEffects.None;
                         }
                         break;
-                    case Direction.Left:
+                    case Direction.Right:
                         rotation = (float)(Math.PI * 0.5);
-                        if (preDirection == Direction.Up)
+                        if (preDirection == Direction.Down)
                         {
                             effect = SpriteEffects.None;
                         }
-                        else if (preDirection == Direction.Down)
+                        else if (preDirection == Direction.Up)
                         {
-                            effect = SpriteEffects.FlipVertically;
+                            effect = SpriteEffects.FlipHorizontally;
                         }
                         break;
                     case Direction.Down:
@@ -83,13 +83,13 @@ namespace Snake.Sprites
                             effect = SpriteEffects.FlipHorizontally;
                         }
                         break;
-                    case Direction.Right:
+                    case Direction.Left:
                         rotation = (float)(Math.PI * 1.5);
-                        if (preDirection == Direction.Up)
+                        if (preDirection == Direction.Down)
                         {
-                            effect = SpriteEffects.FlipVertically;
+                            effect = SpriteEffects.FlipHorizontally;
                         }
-                        else if (preDirection == Direction.Down)
+                        else if (preDirection == Direction.Up)
                         {
                             effect = SpriteEffects.None;
                         }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace Snake.Sprites
 {
@@ -41,10 +42,17 @@ namespace Snake.Sprites
             position = _pos;
         }
 
+        public void Update(GameTime gameTime)
+        {
+        }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             Rectangle rec = new Rectangle((int)position.X, (int)position.Y, width, height);
+            spriteBatch.Begin();
+            //Debug.WriteLine("testtest");
             spriteBatch.Draw(img, rec, Color.White);
+            spriteBatch.End();
         }
 
         public bool CheckPoint(Vector2 point)

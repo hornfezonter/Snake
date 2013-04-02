@@ -9,6 +9,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
+using System.Diagnostics;
+
 namespace Snake
 {
     /// <summary>
@@ -20,17 +22,22 @@ namespace Snake
         SpriteBatch spriteBatch;
 
         public enum GameState{
+            initialing,
             main_menu,
             playing
         };
 
-        private GameState currentState;
+        public GameState currentState;
         private GameState preState;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferHeight = 600;
+            graphics.PreferredBackBufferWidth = 600;
+            IsMouseVisible = true;
         }
 
         /// <summary>
@@ -42,8 +49,14 @@ namespace Snake
         protected override void Initialize()
         {
             // TODO: 在此处添加初始化逻辑
-            currentState = GameState.playing;
-            preState = currentState;
+            Debug.WriteLine("init");
+            currentState = GameState.main_menu;
+            preState = GameState.main_menu;
+
+            Components.Clear();
+            Menu menu = new Menu(this);
+            menu.Initialize();
+            Components.Add(menu);
 
             base.Initialize();
         }
@@ -83,15 +96,29 @@ namespace Snake
             // TODO: 在此处添加更新逻辑
             if (currentState != preState)
             {
-                currentState = preState;
+                preState = currentState;
                 switch (currentState)
                 {
+                    case GameState.main_menu:
+                        Debug.WriteLine("menu");
+                        Components.Clear();
+                        Menu menu = new Menu(this);
+                        menu.Initialize();
+                        Components.Add(menu);
+                        break;
+                    case GameState.playing:
+                        Debug.WriteLine("let's play it");
+                        Components.Clear();
+                        Scene scene = new Scene(this);
+                        scene.Initialize();
+                        Components.Add(scene);
+                        break;
                     default:
                         break;
                 }
-
-                base.Update(gameTime);
             }
+
+            base.Update(gameTime);
         }
 
         /// <summary>
@@ -100,7 +127,7 @@ namespace Snake
         /// <param name="gameTime">提供计时值的快照。</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.White);
 
             // TODO: 在此处添加绘图代码
 

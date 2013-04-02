@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.Diagnostics;
+
 namespace Snake.Sprites
 {
     public class Snake
@@ -55,9 +57,6 @@ namespace Snake.Sprites
             body.Add(new SnakeBody(straightBodyImage, origin, pos, Direction.Up, Direction.Up));
             pos.Y++;
             tail = new SnakeTail(tailImage, origin, pos, Direction.Up);
-
-            msPerMove = 1000;
-            timeSinceLastMove = 0;
         }
 
         //蛇的最短长度为3
@@ -70,9 +69,6 @@ namespace Snake.Sprites
             tailImage = _tail;
 
             Point pos = position;
-
-            msPerMove = 1000;
-            timeSinceLastMove = 0;
 
             if (length < 3)
                 length = 3;
@@ -118,22 +114,23 @@ namespace Snake.Sprites
 
         #endregion
 
-        public override void Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             head.Update(gameTime);
             foreach (SnakeBody i in body)
                 i.Update(gameTime);
             tail.Update(gameTime);
-
-            timeSinceLastMove += gameTime.ElapsedGameTime.Milliseconds;
-            if (timeSinceLastMove >= msPerMove)
-            {
-                timeSinceLastMove = 0;
-                move(false);
-            }
         }
 
-        protected void move(bool grow)
+        public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        {
+            head.Draw(gameTime, spriteBatch);
+            tail.Draw(gameTime, spriteBatch);
+            foreach (SnakeBody s in body)
+                s.Draw(gameTime, spriteBatch);
+        }
+
+        public void move(bool grow)
         {
             int x, y;
             switch (head.NextDirection)
@@ -184,6 +181,11 @@ namespace Snake.Sprites
             p.Y += y;
             head.Position = p;
             head.CurrentDirection = head.NextDirection;
+        }
+
+        public void turn(Direction direction)
+        {
+            head.turn(direction);
         }
     }
 }

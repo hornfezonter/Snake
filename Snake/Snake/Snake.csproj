@@ -72,15 +72,19 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="Scene.cs" />
     <Compile Include="Sprites\Button.cs" />
+    <Compile Include="Sprites\Food.cs" />
     <Compile Include="Sprites\Snake.cs" />
     <Compile Include="Sprites\SnakeBody.cs" />
     <Compile Include="Sprites\SnakeHead.cs" />
     <Compile Include="Sprites\SnakeSegment.cs" />
     <Compile Include="Sprites\SnakeTail.cs" />
+    <Compile Include="Sprites\Stone.cs" />
     <Compile Include="Sprites\Tile.cs" />
   </ItemGroup>
   <ItemGroup>

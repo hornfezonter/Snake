@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.Diagnostics;
+
 namespace Snake.Sprites
 {
     public enum Direction
@@ -46,8 +48,11 @@ namespace Snake.Sprites
 
         public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+            Debug.WriteLine(this.ToString());
+            //Debug.WriteLine(position);
+            //Debug.WriteLine(origin);
             Rectangle destRec = new Rectangle((int)(origin.X+position.X*displayWidth), (int)(origin.Y+position.Y*displayHeight), displayWidth,displayHeight);
-            Vector2 rotationOrigin = new Vector2((float)(origin.X+position.X*displayWidth + displayWidth * 0.5), (float)(origin.Y+position.Y*displayHeight + displayHeight * 0.5));
+            Vector2 rotationOrigin = new Vector2((float)(displayWidth * 0.5), (float)(displayHeight * 0.5));
             float rotation;
 
             switch (direction)
@@ -55,13 +60,13 @@ namespace Snake.Sprites
                 case Direction.Up:
                     rotation = 0;
                     break;
-                case Direction.Left:
+                case Direction.Right:
                     rotation = (float)(Math.PI * 0.5);
                     break;
                 case Direction.Down:
                     rotation = (float)Math.PI;
                     break;
-                case Direction.Right:
+                case Direction.Left:
                     rotation = (float)(Math.PI * 1.5);
                     break;
                 default:
@@ -70,7 +75,7 @@ namespace Snake.Sprites
             }
 
             spriteBatch.Begin();
-            spriteBatch.Draw(img, destRec, null, Color.White, rotation, rotationOrigin, SpriteEffects.None, 0.5f);
+            spriteBatch.Draw(img, destRec, null, Color.White, rotation, rotationOrigin, SpriteEffects.None, 0);
             spriteBatch.End();
         }
     }

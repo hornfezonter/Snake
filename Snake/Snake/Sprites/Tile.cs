@@ -5,6 +5,8 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
+using System.Diagnostics;
+
 namespace Snake.Sprites
 {
     public abstract class Tile
@@ -73,7 +75,7 @@ namespace Snake.Sprites
             currentFrame.Y = 0;
         }
 
-        public override void Update(GameTime gameTime)
+        public virtual  void Update(GameTime gameTime)
         {
             timeSinceLastFrame += gameTime.ElapsedGameTime.Milliseconds;
             if (timeSinceLastFrame > timePerFrame)
@@ -90,8 +92,10 @@ namespace Snake.Sprites
             }
         }
 
-        public override void Draw(GameTime gameTime, SpriteBatch spriteBatch)
+        public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
+
+            Debug.WriteLine(this.ToString());
             spriteBatch.Begin();
             spriteBatch.Draw(img, new Rectangle((int)(origin.X + position.X * displayWidth), (int)(origin.Y + position.Y * displayHeight), displayWidth, displayHeight), Color.White);
             spriteBatch.End();
